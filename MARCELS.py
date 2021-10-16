@@ -21,18 +21,12 @@ fg_2020 = pyb.batting_stats(2020,qual = 0)
 fg_2019 = pyb.batting_stats(2019,qual = 0)
 
 
-#fg_2018 = pyb.batting_stats(2018,qual = 0).loc[fg_2018['PA'] > 300] 
-#fg_2017 = pyb.batting_stats(2017,qual = 0).loc[fg_2017['PA'] > 300]
-
 #Create new data frames ony consising of 4 columns that are of interest 
 
 stat_2021= fg_2021[['Name','IDfg','PA','HR']]
 stat_2020= fg_2020[['Name','IDfg','PA','HR']]
 stat_2019= fg_2019[['Name','IDfg','PA','HR']]
 
-
-#stat_2018= fg_2018[['Name','IDfg','PA','HR']]
-#stat_2017= fg_2017[['Name','IDfg','PA','HR']]
 
 
 stat_2021 = stat_2021.rename(columns={'HR': 'HR_1', 'PA': 'PA_1'})
