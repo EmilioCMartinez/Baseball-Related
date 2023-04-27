@@ -117,3 +117,42 @@ ggplot(data = TrackmanFile, aes(x = HorzBreak, y = InducedVertBreak, color = Aut
                geom = "polygon", alpha = 0.07, level = .80, type = "t", 
                params = list(x = means$x, y = means$y, 
                              height = sds$x*1.96, width = sds$y*1.96), linetype = "dashed") 
+
+#AVG LOCATION PLOT
+
+# calculate means and standard deviations by pitch type
+means1 <- aggregate(cbind(PlateLocSide, PlateLocHeight) ~ AutoPitchType, data = TrackmanFile, FUN = mean)
+sds1 <- aggregate(cbind(PlateLocSide, PlateLocHeight) ~ AutoPitchType, data = TrackmanFile, FUN = sd)
+means1 <- rename(means1, x = PlateLocSide, y = PlateLocHeight)
+sds1 <- rename(sds1, x = PlateLocSide, y = PlateLocHeight)
+
+#strike zone outline
+strike_zone<- tibble(
+  PlateLocSide = c(-0.85, -0.85, 0.85, 0.85, -0.85),
+  PlateLocHeight = c(1.6, 3.5, 3.5, 1.6, 1.6)
+)
+
+
+ggplot(data = TrackmanFile, aes(x = PlateLocSide, y = PlateLocHeight, color = AutoPitchType)) +
+  #geom_point(alpha = .5, size = 2) + 
+  scale_color_manual(values = sc_colors) +
+  geom_path(data = strike_zone, color = "black", linewidth = 1.3) +
+  ylim(0.5, 4.25) +
+  xlim(-1.7, 1.7) +
+  coord_fixed() + 
+  labs(title = "Average Location Plot", 
+       x = "Plate Side (feet)",
+       y = "Plate Height (feet)", 
+       caption = "Data from Trackman") +
+  guides(fill = FALSE, color = guide_legend(title = "Pitch Type", alpha = 1)) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5)) +  
+  theme_classic()+
+  geom_segment(aes(x = -0.2833333, xend = -0.2833333, y = 1.6, yend = 3.5), color = "black", linetype = "dashed") + 
+  geom_segment(aes(x = 0.2833333, xend = 0.2833333, y = 1.6, yend = 3.5), color = "black", linetype = "dashed") +
+  geom_segment(aes(x = -0.85, xend = 0.85, y = 2.2, yend = 2.2), color = "black", linetype = "dashed") + 
+  geom_segment(aes(x = -0.85, xend = 0.85, y = 2.9, yend = 2.9), color = "black", linetype = "dashed") +
+  scale_color_manual(values = sc_colors) +
+  geom_point(data = means_df, aes(x = avg_PlateSide, y = avg_PlateHeight, color = AutoPitchType,fill = AutoPitchType), 
+             size = 7, alpha = 1, shape = 21, stroke =.5) + 
+  scale_color_manual(values = sc_colors) +
+  scale_fill_manual(values = sc_colors) 
