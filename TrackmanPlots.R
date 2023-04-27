@@ -116,7 +116,7 @@ ggplot(data = TrackmanFile, aes(x = HorzBreak, y = InducedVertBreak, color = Aut
   stat_ellipse(data = TrackmanFile, aes(x = HorzBreak, y = InducedVertBreak, fill = AutoPitchType), 
                geom = "polygon", alpha = 0.07, level = .80, type = "t", 
                params = list(x = means$x, y = means$y, 
-                             height = sds$x*1.96, width = sds$y*1.96), linetype = "dashed") 
+                             height = sds$x*1.328, width = sds$y*1.328), linetype = "dashed") #need to change the critical value (1.328) based on C.I.
 
 #AVG LOCATION PLOT
 
